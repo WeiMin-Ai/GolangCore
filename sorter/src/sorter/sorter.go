@@ -1,6 +1,7 @@
 package main
 
 import (
+	"GolangCore/sorter/src/algorithms/bubblesort"
 	"bufio"
 	"flag"
 	"fmt"
@@ -50,17 +51,20 @@ func readValues(infile string) (values []int, err error) {
 }
 
 func main() {
-	flag.Parse()
-
-	if infile != nil {
-		fmt.Println("infile =", *infile, "outfile =", *outfile, "algorithm =", *algorithm)
-	}
-	var filePath string = "/Users/weimin/Desktop/Golang/Coding/GolangCore/sorter/src/sorter/"
-	//values, err := readValues(*infile)
-	values, err := readValues(filePath + "unsorted.dat")
-	if err == nil {
-		fmt.Println("Read values:", values)
-	} else {
-		fmt.Println("Read values failed:", err)
-	}
+	values := []int{51, 77, 5, 44, 15, 47, 58, 22, 50}
+	bubblesort.BubbleSort(values)
+	fmt.Println(values)
+	//flag.Parse()
+	//
+	//if infile != nil {
+	//	fmt.Println("infile =", *infile, "outfile =", *outfile, "algorithm =", *algorithm)
+	//}
+	//var filePath string = "/Users/weimin/Desktop/Golang/Coding/GolangCore/sorter/src/sorter/"
+	////values, err := readValues(*infile)
+	//values, err := readValues(filePath + "unsorted.dat")
+	//if err == nil {
+	//	fmt.Println("Read values:", values)
+	//} else {
+	//	fmt.Println("Read values failed:", err)
+	//}
 }
