@@ -8,11 +8,12 @@ import (
 	"io"
 	"os"
 	"strconv"
+	"time"
 )
 
 var infile *string = flag.String("i", "infile", "File contains values for sorting")
 var outfile *string = flag.String("o", "outfile", "File to receive sorted values")
-var algorithm *string = flag.String("a", "qsort", "Sort algorithm")
+var algorithm *string = flag.String("a", "bullesort", "Sort algorithm")
 
 func readValues(infile string) (values []int, err error) {
 	file, err := os.Open(infile)
@@ -50,21 +51,47 @@ func readValues(infile string) (values []int, err error) {
 	return
 }
 
+func writeValues(values []int, outfile string) error {
+	file, err := os.Create(outfile)
+	if err != nil {
+		fmt.Println("Failed to create the output file:", outfile)
+		return err
+	}
+	defer file.Close()
+
+	for _, value := range values {
+		str := strconv.Itoa(value)
+		file.WriteString(str + "\n")
+	}
+
+	return nil
+}
+
 func main() {
-	values := []int{51, 77, 5, 44, 15, 47, 58, 22, 50}
-	bubblesort.BubbleSort(values)
-	fmt.Println(values)
-	//flag.Parse()
-	//
-	//if infile != nil {
-	//	fmt.Println("infile =", *infile, "outfile =", *outfile, "algorithm =", *algorithm)
-	//}
-	//var filePath string = "/Users/weimin/Desktop/Golang/Coding/GolangCore/sorter/src/sorter/"
-	////values, err := readValues(*infile)
-	//values, err := readValues(filePath + "unsorted.dat")
-	//if err == nil {
-	//	fmt.Println("Read values:", values)
-	//} else {
-	//	fmt.Println("Read values failed:", err)
-	//}
+	flag.Parse()
+	if infile != nil {
+		fmt.Println("infile =", *infile, "outfile =", *outfile, "algorithm =", *algorithm)
+	}
+
+	values, err := readValues(*infile)
+	if err != nil {
+		fmt.Println("Failed to read the input file:", *infile)
+	}
+
+	if err == nil {
+		t1 := time.Now()
+
+		switch *algorithm {
+		case "bubblesort":
+			bubblesort.BubbleSort(values)
+		default:
+			fmt.Println("Sotring algorithm", *algorithm, "is either unknown or unsupported.")
+		}
+
+		t2 := time.Now()
+		fmt.Println("The sorting process costs", t2.Sub(t1), "to complete.")
+		writeValues(values, *outfile)
+	} else {
+		fmt.Println("Read values failed:", err)
+	}
 }
