@@ -83,7 +83,6 @@ func main() {
 
 		switch *algorithm {
 		case "bubblesort":
-
 			bubblesort.BubbleSort(values)
 		default:
 			fmt.Println("Sotring algorithm", *algorithm, "is either unknown or unsupported.")
