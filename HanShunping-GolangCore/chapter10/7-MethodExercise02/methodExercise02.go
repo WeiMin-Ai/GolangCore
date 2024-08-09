@@ -79,5 +79,5 @@ func main() {
 
 	var cal Calculator = Calculator{Sign: "+", Number1: 5, Number2: 10, Result: 0}
 	cal.Calculate()
-	fmt.Println("Result:", cal.Result)
+	fmt.Printf("Result: %v", fmt.Sprintf("%.2f", cal.Result))
 }
